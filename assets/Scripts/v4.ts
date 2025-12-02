@@ -31,21 +31,22 @@ export class DartThrow extends Component {
     private requiredItems = ['PayPal', 'Amazon', 'PiggyBank'];
 
     onLoad() {
-   
+        // For both mobile and desktop
         this.node.on(Input.EventType.TOUCH_START, this.throwDart, this);
         this.node.on(Input.EventType.MOUSE_DOWN, this.throwDart, this);
         this.updateUI();
         
-        // Hide tutorial hand 
+        // Hide tutorial hand initially
         if (this.tutorialHand) {
             this.tutorialHand.active = false;
         }
         
-      
+        // NEW: Hide goldenpiggy initially
         if (this.goldenpiggy) {
             this.goldenpiggy.active = false;
         }
 
+        // Hide all slots initially
         if (this.collectionSlots) {
             this.collectionSlots.children.forEach(slot => {
                 slot.active = false;
@@ -88,13 +89,14 @@ throwDart() {
 
         this.isThrowing = true;
 
-        //  random prize node
+        // Pick a random prize node
         const randomIndex = Math.floor(Math.random() * this.prizeNodes.length);
         const targetNode = this.prizeNodes[randomIndex];
 
-       
+        // Get world position of the target
         const worldPos = targetNode.getWorldPosition();
 
+        // Convert world position to dart's parent space (the canvas/container)
         const uiTransform = this.node.parent.getComponent(UITransform);
         if (!uiTransform) {
             console.error("Parent node needs a UITransform!");
@@ -104,6 +106,7 @@ throwDart() {
 
         const localPos = uiTransform.convertToNodeSpaceAR(worldPos);
 
+        // Store start position for reset (assuming dart's parent is the main canvas/game container)
         const startPos = new Vec3(this.node.position);
 
         // --- MODIFICATION  ---
@@ -160,10 +163,12 @@ throwDart() {
 
         console.log(`🎯 Prize ${this.prizes.length} Won:`, prize);
         
+        // Handle different prize types
         this.handlePrizeType(prize, targetNode);
         
         this.updateUI();
 
+        // Stop wheel after last throw
         if (this.throwsLeft <= 0) {
             const wheelScript = this.wheel.getComponent("WheelRotate");
             if (wheelScript) {
@@ -199,7 +204,7 @@ throwDart() {
                 console.log(`ℹ️ ${prize} already collected!`);
             }
             
-     
+        // Bomb obstacle
         } else if (prize === 'Bomb') {
             console.log('💣 HIT BOMB! Game Over or Extra Dart popup');
             // TODO: Implement bomb penalty or "Save Me" popup
@@ -211,13 +216,14 @@ throwDart() {
             console.error("❌ CollectionSlots not assigned!");
             return;
         }
- 
+
+        // Debug: Show all children
         console.log(`📋 CollectionSlots has ${this.collectionSlots.children.length} children:`);
         this.collectionSlots.children.forEach((child, i) => {
             console.log(`  [${i}] ${child.name}`);
         });
 
-     
+        // Find the corresponding slot
         const slotIndex = this.requiredItems.indexOf(itemName);
         if (slotIndex === -1) {
             console.error(`❌ ${itemName} not found in requiredItems!`);
@@ -234,7 +240,7 @@ throwDart() {
 
         console.log(`✈️ Animating ${itemName} to slot ${slotIndex + 1} (${slot.name})`);
         
-  
+        // Light up the slot with animation
         slot.active = true;
         slot.setScale(0, 0, 1);
         
@@ -246,7 +252,8 @@ throwDart() {
 
     transitionToPhase2() {
         console.log('🔥 PHASE 2: FRENZY MODE!');
- 
+        
+        // Stop wheel
         const wheelScript = this.wheel.getComponent("WheelRotate");
         if (wheelScript) {
             wheelScript.stopWheel();
@@ -283,9 +290,11 @@ endGame() {
         console.log("Thank you for playing!");
         
         if (this.goldenpiggy) {
-             this.goldenpiggy.active = true;
+            // Ensure the piggy is active before animating
+            this.goldenpiggy.active = true;
 
-             const finalPosition = new Vec3(this.goldenpiggy.position);
+            // Store its intended final position
+            const finalPosition = new Vec3(this.goldenpiggy.position);
             
             // Set its initial position far below the screen
             // You might need to adjust the Y value based on your canvas size and piggy's anchor
@@ -299,7 +308,8 @@ endGame() {
         }
     }
 
-     resetGame() {
+    // Optional: Reset game
+    resetGame() {
         this.throwsLeft = 3;
         this.prizes = [];
         this.isThrowing = false;
