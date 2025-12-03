@@ -2221,8 +2221,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 157.8,
-      "height": 40
+      "width": 252,
+      "height": 150
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2251,7 +2251,7 @@
       "b": 0,
       "a": 255
     },
-    "_string": "PLAY NOW",
+    "_string": "DOWNLOAD\nOTHER GAMES",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 30,
@@ -2305,8 +2305,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 161.8,
-      "height": 61
+      "width": 250,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2443,8 +2443,8 @@
     "button": {
       "__id__": 62
     },
-    "IosLink": "tahmidraven.online",
-    "PlayStoreLink": "tahmidraven.online",
+    "IosLink": "https://ravendeath.itch.io/",
+    "PlayStoreLink": "https://ravendeath.itch.io/",
     "_id": "0cbVDm27tO960HU92f22J3"
   },
   {
