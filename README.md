@@ -49,7 +49,7 @@ If the player is inactive for 2 seconds, a pulsing hand appears to guide them.
 ## ▶️ Play More of My Games
 Check out my other projects on itch.io!
 
-👉 https://raven-death.itch.io
+👉 https://ravendeath.itch.io/
 If you enjoyed GitLucky, feel free to try my other games and support the page!
 
 ---
